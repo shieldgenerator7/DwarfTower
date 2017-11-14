@@ -1,3 +1,19 @@
+#Project Folders
+Temp/
+Obj/
+UnityGenerated/
+Library/
+Builds/
+Assets/UnityTestTools/
+Assets/Ferr/
+Assets/VoxelBusters
+Assets/Easy Save 2/*
+!Assets/Easy Save 2/Types
+!Assets/Easy Save 2/ES2Init.cs
+!Assets/Easy Save 2/ES2Init.cs.meta
+Assets/PLugins/
+
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
@@ -45,3 +61,14 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+*.csproj
+*.sln
+.vs/Stoned/v14/.suo
+.vs/Stoned/v14/.suo
+Assets/UnityTestTools.meta
+Assets/Sounds/ForceTeleport.mp3
+Assets/Sounds/forceteleport_data.meta
+Assets/VoxelBusters.meta
+Assets/Easy Save 2.meta
+.vs/Stoned/v15/.suo
+*.ide
