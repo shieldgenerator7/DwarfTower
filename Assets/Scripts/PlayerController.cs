@@ -7,14 +7,14 @@ public class PlayerController : MonoBehaviour
 
     public float walkSpeed = 5.0f;//how fast the player walks
 
+    public GameObject bulletPrefab;//the prefab for the bullet
+
     private Rigidbody2D rb2d;
-    private SpriteRenderer sr;
 
     // Use this for initialization
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
-        sr = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -22,7 +22,15 @@ public class PlayerController : MonoBehaviour
     {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
-        Vector2 direction = (walkSpeed * horizontal * Vector3.right) + (walkSpeed * vertical * Vector3.up);
-        rb2d.velocity = direction;
+        if (horizontal != 0 || vertical != 0)
+        {
+            float terrainMultiplier = LevelManager.getTile(transform.position).terrainSpeedMultiplier;
+            Vector2 direction = (terrainMultiplier * walkSpeed * horizontal * Vector3.right) + (terrainMultiplier * walkSpeed * vertical * Vector3.up);
+            rb2d.velocity = direction;
+        }
+        else
+        {
+            rb2d.velocity = Vector2.zero;
+        }
     }
 }
