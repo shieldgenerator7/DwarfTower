@@ -140,6 +140,7 @@ MonoBehaviour:
   maxHP: 100
   destroyOnDeath: 1
   fadeWithHP: 1
+  immortal: 1
 --- !u!114 &114500131484697906
 MonoBehaviour:
   m_ObjectHideFlags: 1
