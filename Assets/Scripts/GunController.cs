@@ -10,6 +10,7 @@ public class GunController : NetworkBehaviour
     public float fireRate = 60;//how many bullets can be fired in a minute
     public float projectileSpeed = 5.0f;//how fast the bullets travel
     public float spawnBuffer = 1.5f;//how far from the collider's center the bullet spawns
+    public Vector2 target;//the world space coordinate of the target
 
     public GameObject bulletPrefab;
 
@@ -21,18 +22,19 @@ public class GunController : NetworkBehaviour
     // Use this for initialization
     void Start()
     {
-        if (isLocalPlayer)
+        if (automatic || isLocalPlayer)
         {
             fireCoolDownDuration = 60 / fireRate;
             nextFireTime = 0;
             bc2dOffset = GetComponent<BoxCollider2D>().offset;
         }
+        target = transform.position + Vector3.up;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isLocalPlayer)
+        if (automatic || isLocalPlayer)
         {
             bool shouldFire = automatic || Input.GetMouseButton(0);
             if (shouldFire)
@@ -40,9 +42,13 @@ public class GunController : NetworkBehaviour
                 if (Time.time >= nextFireTime)
                 {
                     nextFireTime = Time.time + fireCoolDownDuration;
-                    Vector2 direction = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - ((Vector2)transform.position + bc2dOffset);
+                    if (!automatic)
+                    {
+                        target = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    }
+                    Vector2 direction = target - ((Vector2)transform.position + bc2dOffset);
                     direction.Normalize();
-                    Vector2 start = (Vector2)transform.position + bc2dOffset + (direction*spawnBuffer);
+                    Vector2 start = (Vector2)transform.position + bc2dOffset + (direction * spawnBuffer);
                     CmdFire(start, direction * projectileSpeed);
                 }
             }
