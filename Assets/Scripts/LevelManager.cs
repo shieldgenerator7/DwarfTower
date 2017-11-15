@@ -27,16 +27,8 @@ public class LevelManager : NetworkBehaviour
     // Use this for initialization
     void Start()
     {
-        //Singleton sorting out
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(this);
-            return;
-        }
+        instance = this;
+
         if (isServer)
         {
             //Initialization stuff
@@ -44,7 +36,15 @@ public class LevelManager : NetworkBehaviour
         }
         else
         {
-            //generateLevel(networkTileMap);
+            tileMap = new GameObject[tileWidth, tileHeight];
+            receiveLevel();
+        }
+    }
+
+    private void OnConnectedToServer()
+    {
+        if (!isServer)
+        {
             tileMap = new GameObject[tileWidth, tileHeight];
             receiveLevel();
         }
