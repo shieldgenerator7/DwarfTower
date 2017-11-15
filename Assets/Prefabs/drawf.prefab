@@ -26,7 +26,6 @@ GameObject:
   - component: {fileID: 114500131484697906}
   - component: {fileID: 114501868631826616}
   - component: {fileID: 114143501446309372}
-  - component: {fileID: 114228177192983260}
   - component: {fileID: 114994282165297500}
   - component: {fileID: 114309477015187432}
   m_Layer: 0
@@ -106,7 +105,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 5
-  LOG: 1
 --- !u!114 &114143501446309372
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -128,17 +126,6 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
---- !u!114 &114228177192983260
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1952661027217810}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e2a3f690017d674287b8241f40431e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114309477015187432
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -167,7 +154,7 @@ MonoBehaviour:
   automatic: 0
   fireRate: 240
   projectileSpeed: 7
-  PAUSE_AFTER_SHOOTING: 0
+  spawnBuffer: 1.5
   bulletPrefab: {fileID: 1312562852849484, guid: caffe40ff38df924ea83379aa74cf82a,
     type: 2}
 --- !u!114 &114501868631826616
