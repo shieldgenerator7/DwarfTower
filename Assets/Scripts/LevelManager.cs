@@ -5,9 +5,10 @@ using UnityEngine.Networking;
 
 public class LevelManager : NetworkBehaviour
 {
-
     public GameObject grassPrefab;
     public GameObject waterPrefab;
+    public GameObject roadPrefab;
+    public GameObject bridgePrefab;
     public GameObject treePrefab;
     public GameObject borderPrefab;
     [SyncVar]
@@ -92,6 +93,7 @@ public class LevelManager : NetworkBehaviour
         generateRiver(waterPrefab, tiles, width, height, height / 2);
         generateRiver(waterPrefab, tiles, width, height, height / 2);
         generateRiver(waterPrefab, tiles, width, height, 3 * height / 4);
+        generateRoad(roadPrefab, bridgePrefab, tiles, width, height, width / 2);
         tileMap = new GameObject[width, height];
         for (int xi = 0; xi < width; xi++)
         {
@@ -140,6 +142,45 @@ public class LevelManager : NetworkBehaviour
                 prefabMap[xi, currentY] = prefab;
             }
             prevY = currentY;
+        }
+    }
+
+    private void generateRoad(GameObject prefab, GameObject bridgePrefab, GameObject[,] prefabMap, int width, int height, int startX)
+    {
+        int currentX = startX;
+        int prevX = currentX;
+        for (int yi = 0; yi < height; yi++)
+        {
+            if (Random.Range(0, 2) > 0)
+            {
+                currentX += Random.Range(-2, 2);
+            }
+            for (int xi = prevX; xi != currentX; xi += (int)Mathf.Sign(currentX - prevX))
+            {
+                if (xi >= 0 && xi < width)
+                {
+                    if (prefabMap[xi, yi].name.Contains("water"))
+                    {
+                        prefabMap[xi, yi] = bridgePrefab;
+                    }
+                    else
+                    {
+                        prefabMap[xi, yi] = prefab;
+                    }
+                }
+            }
+            if (currentX >= 0 && currentX < width)
+            {
+                if (prefabMap[currentX, yi].name.Contains("water"))
+                {
+                    prefabMap[currentX, yi] = bridgePrefab;
+                }
+                else
+                {
+                    prefabMap[currentX, yi] = prefab;
+                }
+            }
+            prevX = currentX;
         }
     }
 
