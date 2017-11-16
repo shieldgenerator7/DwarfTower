@@ -9,6 +9,7 @@ public class LevelManager : NetworkBehaviour
     public GameObject grassPrefab;
     public GameObject waterPrefab;
     public GameObject treePrefab;
+    public GameObject borderPrefab;
     [SyncVar]
     public int tileHeight = 100;//how many tiles across
     [SyncVar]
@@ -103,6 +104,7 @@ public class LevelManager : NetworkBehaviour
             }
         }
         generateForest(treePrefab, new Vector2(90, 90), new Vector2(0, 0));
+        generateBorder(borderPrefab, width, height);
     }
 
     private void generateFill(GameObject prefab, GameObject[,] prefabMap, int width, int height)
@@ -154,6 +156,25 @@ public class LevelManager : NetworkBehaviour
                 go.transform.position = randomPos;
                 go.GetComponent<SpriteRenderer>().sortingOrder = getDisplaySortingOrder(randomPos);
                 NetworkServer.Spawn(go);
+            }
+        }
+    }
+
+    private void generateBorder(GameObject prefab, int width, int height)
+    {
+        int extraWidth = width + 2;
+        int extraHeight = height + 2;
+        for (int xi = 0; xi < extraWidth; xi++)
+        {
+            for (int yi = 0; yi < extraHeight; yi++)
+            {
+                //Only spawn on the border
+                if (xi == 0 || yi == 0 || xi == extraWidth - 1 || yi == extraHeight - 1)
+                {
+                    GameObject go = GameObject.Instantiate(prefab);
+                    go.transform.position = new Vector2(xi - extraWidth / 2, yi - extraHeight / 2);
+                    NetworkServer.Spawn(go);
+                }
             }
         }
     }
