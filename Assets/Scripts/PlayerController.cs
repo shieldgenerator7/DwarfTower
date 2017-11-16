@@ -44,7 +44,7 @@ public class PlayerController : NetworkBehaviour
             float vertical = Input.GetAxis("Vertical");
             if (horizontal != 0 || vertical != 0)
             {
-                float terrainMultiplier = 1;// LevelManager.getTile(transform.position).terrainSpeedMultiplier;
+                float terrainMultiplier = LevelManager.getTile(transform.position).terrainSpeedMultiplier;
                 Vector2 direction = (terrainMultiplier * walkSpeed * horizontal * Vector3.right) + (terrainMultiplier * walkSpeed * vertical * Vector3.up);
                 rb2d.velocity = direction;
             }
