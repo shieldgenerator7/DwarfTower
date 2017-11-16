@@ -3,16 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class BulletChecker : NetworkBehaviour {
+public class BulletChecker : NetworkBehaviour
+{
 
     public int damage = 10;//how much damage this bullet does
-    
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collision.gameObject != null && !ReferenceEquals(collision.gameObject, null))
+        if (collider.gameObject != null && !ReferenceEquals(collider.gameObject, null))
         {
-            collision.gameObject.GetComponent<HealthPool>().addHealthPoints(-damage);
-            CmdDestroy();
+            HealthPool hp = collider.gameObject.GetComponent<HealthPool>();
+            if (hp)
+            {
+                hp.addHealthPoints(-damage);
+                CmdDestroy();
+            }
         }
     }
 
