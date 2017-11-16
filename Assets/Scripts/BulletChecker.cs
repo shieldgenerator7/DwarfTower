@@ -15,8 +15,11 @@ public class BulletChecker : NetworkBehaviour
             HealthPool hp = collider.gameObject.GetComponent<HealthPool>();
             if (hp)
             {
-                hp.addHealthPoints(-damage);
-                CmdDestroy();
+                if (!TeamToken.isFriendly(gameObject, collider.gameObject))
+                {
+                    hp.addHealthPoints(-damage);
+                    CmdDestroy();
+                }
             }
         }
     }

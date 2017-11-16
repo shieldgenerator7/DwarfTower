@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+[RequireComponent(typeof(TeamToken))]
 public class GunController : NetworkBehaviour
 {
 
@@ -62,6 +63,7 @@ public class GunController : NetworkBehaviour
         GameObject bullet = GameObject.Instantiate(bulletPrefab);
         bullet.transform.position = start;
         bullet.GetComponent<Rigidbody2D>().velocity = velocity;
+        TeamToken.assignTeam(bullet, gameObject);
         NetworkServer.Spawn(bullet);
     }
 }
