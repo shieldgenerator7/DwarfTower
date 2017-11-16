@@ -64,7 +64,9 @@ public class LevelManager : NetworkBehaviour
     }
     public static Vector2 vectorToGrid(Vector2 pos)
     {
-        return new Vector2((int)Mathf.Ceil(pos.x) + instance.tileWidth / 2, (int)Mathf.Ceil(pos.y) + instance.tileHeight / 2);
+        return new Vector2(
+            (int)pos.x + instance.tileWidth / 2,
+            (int)pos.y + instance.tileHeight / 2);
     }
     public static int getDisplaySortingOrder(Vector2 pos)
     {
@@ -191,7 +193,8 @@ public class LevelManager : NetworkBehaviour
             float randomX = Random.Range(-size.x / 2, size.x / 2) + pos.x;
             float randomY = Random.Range(-size.y / 2, size.y / 2) + pos.y;
             Vector2 randomPos = new Vector2(randomX, randomY);
-            if (!getTile(randomPos).gameObject.name.Contains("water"))
+            GameObject tile = getTile(randomPos).gameObject;
+            if (!tile.name.Contains("water") && !tile.name.Contains("road"))
             {
                 GameObject go = GameObject.Instantiate(prefab);
                 go.transform.position = randomPos;
