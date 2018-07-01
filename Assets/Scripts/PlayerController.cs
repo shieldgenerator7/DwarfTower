@@ -9,6 +9,7 @@ public class PlayerController : NetworkBehaviour
     public float walkSpeed = 5.0f;//how fast the player walks
 
     private Rigidbody2D rb2d;
+    private Stunnable stunnable;
 
     // Use this for initialization
     void Start()
@@ -22,6 +23,7 @@ public class PlayerController : NetworkBehaviour
         {
             setupForNewPlayer(pc);
         }
+        stunnable = GetComponent<Stunnable>();
     }
 
     void setupForNewPlayer(PlayerController pc)
@@ -40,17 +42,20 @@ public class PlayerController : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            float horizontal = Input.GetAxis("Horizontal");
-            float vertical = Input.GetAxis("Vertical");
-            if (horizontal != 0 || vertical != 0)
+            if (!stunnable.Stunned)
             {
-                float terrainMultiplier = LevelManager.getTile(transform.position).terrainSpeedMultiplier;
-                Vector2 direction = (terrainMultiplier * walkSpeed * horizontal * Vector3.right) + (terrainMultiplier * walkSpeed * vertical * Vector3.up);
-                rb2d.velocity = direction;
-            }
-            else
-            {
-                rb2d.velocity = Vector2.zero;
+                float horizontal = Input.GetAxis("Horizontal");
+                float vertical = Input.GetAxis("Vertical");
+                if (horizontal != 0 || vertical != 0)
+                {
+                    float terrainMultiplier = 1;// LevelManager.getTile(transform.position).terrainSpeedMultiplier;
+                    Vector2 direction = (terrainMultiplier * walkSpeed * horizontal * Vector3.right) + (terrainMultiplier * walkSpeed * vertical * Vector3.up);
+                    rb2d.velocity = direction;
+                }
+                else
+                {
+                    rb2d.velocity = Vector2.zero;
+                }
             }
         }
     }

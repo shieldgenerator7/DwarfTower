@@ -28,7 +28,7 @@ GameObject:
   - component: {fileID: 114501868631826616}
   - component: {fileID: 114143501446309372}
   - component: {fileID: 114994282165297500}
-  - component: {fileID: 114309477015187432}
+  - component: {fileID: 114062994484349804}
   - component: {fileID: 114542058478749636}
   m_Layer: 0
   m_Name: drawf
@@ -95,6 +95,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.6, y: 0.64}
   m_EdgeRadius: 0
+--- !u!114 &114062994484349804
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1952661027217810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83eb3c2295c37a64db389ac88a7d0ac3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stunResistancePercent: 0
+  knockbackResistancePercent: 0
 --- !u!114 &114137815361313034
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -128,21 +141,6 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
---- !u!114 &114309477015187432
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1952661027217810}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b183293a652b8c4f82178f878125209, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHP: 100
-  destroyOnDeath: 1
-  fadeWithHP: 1
-  immortal: 1
 --- !u!114 &114500131484697906
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -156,7 +154,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   automatic: 0
   fireRate: 240
-  projectileSpeed: 7
   spawnBuffer: 1.5
   target: {x: 0, y: 0}
   bulletPrefab: {fileID: 1312562852849484, guid: caffe40ff38df924ea83379aa74cf82a,
@@ -205,6 +202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamCaptain: {fileID: 0}
+  teamColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &114813018732701108
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -240,9 +238,11 @@ SpriteRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
@@ -255,6 +255,7 @@ SpriteRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5

@@ -9,7 +9,6 @@ public class GunController : NetworkBehaviour
 
     public bool automatic = false;//true: auto-fires, false: fires on player input
     public float fireRate = 60;//how many bullets can be fired in a minute
-    public float projectileSpeed = 5.0f;//how fast the bullets travel
     public float spawnBuffer = 1.5f;//how far from the collider's center the bullet spawns
     public Vector2 target;//the world space coordinate of the target
 
@@ -50,19 +49,20 @@ public class GunController : NetworkBehaviour
                     Vector2 direction = target - ((Vector2)transform.position + bc2dOffset);
                     direction.Normalize();
                     Vector2 start = (Vector2)transform.position + bc2dOffset + (direction * spawnBuffer);
-                    CmdFire(start, direction * projectileSpeed);
+                    CmdFire(start, direction);
                 }
             }
         }
     }
 
     [Command]
-    void CmdFire(Vector2 start, Vector2 velocity)
+    void CmdFire(Vector2 start, Vector2 direction)
     {
         //spawn bullet
         GameObject bullet = GameObject.Instantiate(bulletPrefab);
         bullet.transform.position = start;
-        bullet.GetComponent<Rigidbody2D>().velocity = velocity;
+        bullet.GetComponent<Rigidbody2D>().velocity = 
+            direction.normalized * bullet.GetComponent<BulletChecker>().travelSpeed;
         TeamToken.assignTeam(bullet, gameObject);
         NetworkServer.Spawn(bullet);
     }

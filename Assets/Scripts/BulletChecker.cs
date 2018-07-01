@@ -7,6 +7,9 @@ public class BulletChecker : NetworkBehaviour
 {
 
     public int damage = 10;//how much damage this bullet does
+    public float travelSpeed = 7;//how fast this bullet travels
+    public float stunDuration = 2;//how long players will be stunned for when hit
+    public float knockbackSpeed = 1;//how fast players move away from the objective when hit
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
@@ -18,6 +21,15 @@ public class BulletChecker : NetworkBehaviour
                 if (!TeamToken.isFriendly(gameObject, collider.gameObject))
                 {
                     hp.addHealthPoints(-damage);
+                    CmdDestroy();
+                }
+            }
+            Stunnable stunnable = collider.gameObject.GetComponent<Stunnable>();
+            if (stunnable)
+            {
+                if (!TeamToken.isFriendly(gameObject, collider.gameObject))
+                {
+                    stunnable.stun(stunDuration, knockbackSpeed);
                     CmdDestroy();
                 }
             }
