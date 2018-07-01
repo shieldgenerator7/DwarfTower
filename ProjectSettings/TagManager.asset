@@ -17,6 +17,9 @@ TagManager:
   - 
   - 
   - 
+  - Team1
+  - Team1Shot
+  - Team1ShotSpecial
   - 
   - 
   - 
@@ -24,21 +27,18 @@ TagManager:
   - 
   - 
   - 
+  - Team2
+  - Team2Shot
+  - Team2ShotSpecial
   - 
   - 
   - 
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Team0
+  - Team0Shot
+  - Team0ShotSpecial
   m_SortingLayers:
   - name: Background
     uniqueID: 4000780291
