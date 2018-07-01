@@ -50,6 +50,10 @@ public class GunController : NetworkBehaviour
                     direction.Normalize();
                     Vector2 start = (Vector2)transform.position + bc2dOffset + (direction * spawnBuffer);
                     CmdFire(start, direction);
+                    if (onFire != null)
+                    {
+                        onFire(start, target);
+                    }
                 }
             }
         }
@@ -61,9 +65,12 @@ public class GunController : NetworkBehaviour
         //spawn bullet
         GameObject bullet = GameObject.Instantiate(bulletPrefab);
         bullet.transform.position = start;
-        bullet.GetComponent<Rigidbody2D>().velocity = 
+        bullet.GetComponent<Rigidbody2D>().velocity =
             direction.normalized * bullet.GetComponent<BulletChecker>().travelSpeed;
         TeamToken.assignTeam(bullet, gameObject);
         NetworkServer.Spawn(bullet);
     }
+
+    public delegate void OnFire(Vector2 start, Vector2 target);
+    public OnFire onFire;
 }

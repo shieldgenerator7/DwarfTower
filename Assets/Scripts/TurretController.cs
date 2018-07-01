@@ -6,6 +6,7 @@ public class TurretController : MonoBehaviour {
 
     public float detectionRange = 10.0f;//how close enemies must be in order for the turret to activate
     public GameObject owner;//the player who placed the turret
+    private Vector2 direction;
 
     private List<GameObject> enemies;
     private GunController gunController;
@@ -23,23 +24,9 @@ public class TurretController : MonoBehaviour {
         }
         gunController = GetComponent<GunController>();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-        GameObject target = null;
-        float minSqrDist = detectionRange * detectionRange;
-		foreach(GameObject enemy in enemies)
-        {
-            float sqrDist = (enemy.transform.position - transform.position).sqrMagnitude;
-            if (sqrDist <= minSqrDist)
-            {
-                minSqrDist = sqrDist;
-                target = enemy;
-            }
-        }
-        if (target)
-        {
-            gunController.target = target.transform.position;
-        }
-	}
+
+    public void playerFired(Vector2 start, Vector2 target)
+    {
+        gunController.target = target;
+    }
 }

@@ -52,7 +52,9 @@ public class TurretLauncher : NetworkBehaviour {
         //spawn bullet
         GameObject turret = GameObject.Instantiate(turretPrefab);
         turret.transform.position = start;
-        turret.GetComponent<TurretController>().owner = gameObject;
+        TurretController turCon = turret.GetComponent<TurretController>();
+        turCon.owner = gameObject;
+        GetComponent<GunController>().onFire += turCon.playerFired;
         TeamToken.assignTeam(turret, gameObject);
         NetworkServer.Spawn(turret);
     }
