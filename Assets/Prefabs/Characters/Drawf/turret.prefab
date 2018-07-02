@@ -131,7 +131,6 @@ MonoBehaviour:
   fireRate: 60
   spawnBuffer: 1.5
   target: {x: 0, y: 0}
-  bulletPhysicsLayerOffset: 0
   bulletPrefab: {fileID: 1312562852849484, guid: caffe40ff38df924ea83379aa74cf82a,
     type: 2}
 --- !u!114 &114616158270367560
@@ -148,7 +147,6 @@ MonoBehaviour:
   maxHP: 50
   destroyOnDeath: 1
   fadeWithHP: 1
-  immortal: 0
 --- !u!114 &114950443363169524
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -160,7 +158,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd412568673cdcf4cbed94fcf78692a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionRange: 10
   owner: {fileID: 0}
 --- !u!212 &212226464446679004
 SpriteRenderer:
