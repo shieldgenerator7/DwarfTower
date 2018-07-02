@@ -11,6 +11,8 @@ public class GunController : NetworkBehaviour
     public float fireRate = 60;//how many bullets can be fired in a minute
     public float spawnBuffer = 1.5f;//how far from the collider's center the bullet spawns
     public Vector2 target;//the world space coordinate of the target
+    [Range(0,2)]
+    public int bulletPhysicsLayerOffset = 1;//determines if the bullets spawn on this layer or the next one
 
     public GameObject bulletPrefab;
 
@@ -67,6 +69,7 @@ public class GunController : NetworkBehaviour
         bullet.transform.position = start;
         bullet.GetComponent<Rigidbody2D>().velocity =
             direction.normalized * bullet.GetComponent<BulletChecker>().travelSpeed;
+        bullet.layer = gameObject.layer + bulletPhysicsLayerOffset;
         TeamToken.assignTeam(bullet, gameObject);
         NetworkServer.Spawn(bullet);
     }

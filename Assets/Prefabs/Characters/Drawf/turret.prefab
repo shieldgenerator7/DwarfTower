@@ -131,6 +131,7 @@ MonoBehaviour:
   fireRate: 60
   spawnBuffer: 1.5
   target: {x: 0, y: 0}
+  bulletPhysicsLayerOffset: 0
   bulletPrefab: {fileID: 1312562852849484, guid: caffe40ff38df924ea83379aa74cf82a,
     type: 2}
 --- !u!114 &114616158270367560

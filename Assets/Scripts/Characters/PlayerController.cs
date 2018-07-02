@@ -18,6 +18,7 @@ public class PlayerController : NetworkBehaviour
         {
             Camera.main.GetComponent<CameraController>().player = gameObject;
             rb2d = GetComponent<Rigidbody2D>();
+            TeamManager.assignTeam(this);
         }
         foreach (PlayerController pc in FindObjectsOfType<PlayerController>())
         {
@@ -33,7 +34,10 @@ public class PlayerController : NetworkBehaviour
         {
             tt.teamColor = Color.white;
         }
-        tt.teamCaptain = pc.gameObject;
+        if (tt.teamCaptain == null)
+        {
+            tt.teamCaptain = pc.gameObject;
+        }
         pc.gameObject.GetComponent<SpriteRenderer>().color = tt.teamColor;
     }
 
