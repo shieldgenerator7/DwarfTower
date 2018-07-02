@@ -1,16 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 //2017-11-15: FUTURE CODE: This class will manage teams and which player is on which team
-public class TeamManager : MonoBehaviour
+public class TeamManager : NetworkBehaviour
 {
+    [SyncVar]
     public int team1Count = 0;
+    [SyncVar]
     public int team2Count = 0;
 
-    private TeamToken team1Captain;
-    private TeamToken team2captain;
-
+    [SyncVar]
+    public int playerCount = 0;
+    
     private TeamToken[] teamCaptains = new TeamToken[3];
 
     private static TeamManager instance;
@@ -35,11 +38,12 @@ public class TeamManager : MonoBehaviour
             int randomTeam = Random.Range(1,3);
             instance.assignToTeam(pc, randomTeam);
         }
+        instance.playerCount++;
+        pc.name += " Player " + instance.playerCount;
     }
 
     private void assignToTeam(PlayerController pc, int teamNumber)
     {
-        pc.gameObject.layer = LayerMask.NameToLayer("Team"+teamNumber);
         if (teamCaptains[teamNumber] == null)
         {
             TeamToken tt = pc.GetComponent<TeamToken>();
