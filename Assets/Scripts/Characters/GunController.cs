@@ -10,8 +10,8 @@ public class GunController : NetworkBehaviour
     public bool automatic = false;//true: auto-fires, false: fires on player input
     public float fireRate = 60;//how many bullets can be fired in a minute
     public float spawnBuffer = 1.5f;//how far from the collider's center the bullet spawns
+    [SyncVar]
     public Vector2 target;//the world space coordinate of the target
-    [Range(0,2)]
 
     public GameObject bulletPrefab;
 
@@ -35,7 +35,7 @@ public class GunController : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (automatic || isLocalPlayer)
+        if ((automatic && isServer) || isLocalPlayer)
         {
             bool shouldFire = automatic || Input.GetMouseButton(0);
             if (shouldFire)
@@ -50,18 +50,14 @@ public class GunController : NetworkBehaviour
                     Vector2 direction = target - ((Vector2)transform.position + bc2dOffset);
                     direction.Normalize();
                     Vector2 start = (Vector2)transform.position + bc2dOffset + (direction * spawnBuffer);
-                    CmdFire(start, direction);
-                    if (onFire != null)
-                    {
-                        onFire(start, target);
-                    }
+                    CmdFire(start, direction, target);
                 }
             }
         }
     }
 
     [Command]
-    void CmdFire(Vector2 start, Vector2 direction)
+    void CmdFire(Vector2 start, Vector2 direction, Vector2 target)
     {
         //spawn bullet
         GameObject bullet = GameObject.Instantiate(bulletPrefab);
@@ -70,8 +66,14 @@ public class GunController : NetworkBehaviour
             direction.normalized * bullet.GetComponent<BulletChecker>().travelSpeed;
         TeamToken.assignTeam(bullet, gameObject);
         NetworkServer.Spawn(bullet);
+        if (EventOnFire != null)
+        {
+            EventOnFire(start, target);
+        }
     }
 
+    //2018-07-01: got help from https://docs.unity3d.com/ScriptReference/Networking.SyncEventAttribute.html
     public delegate void OnFire(Vector2 start, Vector2 target);
-    public OnFire onFire;
+    [SyncEvent]
+    public event OnFire EventOnFire;
 }

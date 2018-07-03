@@ -40,7 +40,8 @@ public class Stunnable : NetworkBehaviour
         }
     }
 
-    public void stun(float duration, float knockbackSpeed)
+    [Command]
+    public void CmdStun(float duration, float knockbackSpeed)
     {
         stunStartTime = Time.time;
         stunDuration = duration;

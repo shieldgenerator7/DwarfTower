@@ -13,6 +13,10 @@ public class BulletChecker : NetworkBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
+        if (!isServer)
+        {
+            return;
+        }
         if (collider.gameObject != null && !ReferenceEquals(collider.gameObject, null))
         {
             HealthPool hp = collider.gameObject.GetComponent<HealthPool>();
@@ -21,7 +25,7 @@ public class BulletChecker : NetworkBehaviour
                 if (!TeamToken.isFriendly(gameObject, collider.gameObject))
                 {
                     hp.addHealthPoints(-damage);
-                    CmdDestroy();
+                    Destroy();
                 }
             }
             Stunnable stunnable = collider.gameObject.GetComponent<Stunnable>();
@@ -29,15 +33,14 @@ public class BulletChecker : NetworkBehaviour
             {
                 if (!TeamToken.isFriendly(gameObject, collider.gameObject))
                 {
-                    stunnable.stun(stunDuration, knockbackSpeed);
-                    CmdDestroy();
+                    stunnable.CmdStun(stunDuration, knockbackSpeed);
+                    Destroy();
                 }
             }
         }
     }
-
-    [Command]
-    void CmdDestroy()
+    
+    void Destroy()
     {
         Destroy(gameObject);
         NetworkServer.Destroy(gameObject);
