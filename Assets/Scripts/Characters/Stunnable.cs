@@ -9,12 +9,17 @@ public class Stunnable : NetworkBehaviour
     public float stunResistancePercent = 0;
     [Range(0, 1)]
     public float knockbackResistancePercent = 0;
-
-    public OnStunned onStunned;
-
+    public float postStunInvulnerabeDuration = 1;//how many seconds of invulnerability you get after being stunned
+    
     public bool Stunned
     {
         get { return Time.time < stunStartTime + stunDuration; }
+        private set { }
+    }
+
+    public bool CanBeStunned
+    {
+        get { return Time.time > stunStartTime + stunDuration + postStunInvulnerabeDuration; }
         private set { }
     }
 
@@ -43,13 +48,16 @@ public class Stunnable : NetworkBehaviour
     [Command]
     public void CmdStun(float duration, float knockbackSpeed)
     {
-        stunStartTime = Time.time;
-        stunDuration = duration;
-        this.knockbackSpeed = knockbackSpeed;
-        this.knockbackDirection = Vector2.down.normalized;
-        if (onStunned != null)
+        if (CanBeStunned)
         {
-            onStunned(duration, knockbackSpeed);
+            stunStartTime = Time.time;
+            stunDuration = duration;
+            this.knockbackSpeed = knockbackSpeed;
+            this.knockbackDirection = Vector2.down.normalized;
+            if (EventOnStunned != null)
+            {
+                EventOnStunned(duration, knockbackSpeed);
+            }
         }
     }
 
