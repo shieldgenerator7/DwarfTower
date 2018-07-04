@@ -7,11 +7,14 @@ using UnityEngine.Networking;
 public class Stunnable : NetworkBehaviour
 {
     [Range(0, 1)]
-    public float stunResistancePercent = 0;
+    [SerializeField]
+    private float stunResistancePercent = 0;
     [Range(0, 1)]
-    public float knockbackResistancePercent = 0;
+    [SerializeField]
+    private float knockbackResistancePercent = 0;
     [Range(0, 10)]
-    public float postStunInvulnerabeDuration = 1;//how many seconds of invulnerability you get after being stunned
+    [SerializeField]
+    private float postStunInvulnerabeDuration = 1;//how many seconds of invulnerability you get after being stunned
 
     public float StunResistance
     {
@@ -42,16 +45,14 @@ public class Stunnable : NetworkBehaviour
 
     public bool Stunned
     {
-        get {
-            if (!isLocalPlayer)
-            {
-                return stunned;
-            }
+        get
+        {
             return Time.time < stunStartTime + stunDuration;
         }
         private set { }
     }
     [SyncVar]
+    [SerializeField]
     private bool stunned = false;
 
     public bool CanBeStunned
@@ -60,7 +61,6 @@ public class Stunnable : NetworkBehaviour
         private set { }
     }
 
-    [SyncVar]
     private float stunStartTime = 0;
     [SyncVar]
     private float stunDuration = 0;
@@ -114,17 +114,24 @@ public class Stunnable : NetworkBehaviour
     [ClientRpc]
     public void RpcStun(float duration, float knockbackSpeed)
     {
-        if (isLocalPlayer)
+        if (CanBeStunned)
         {
-            if (CanBeStunned)
+            stunStartTime = Time.time;
+            stunDuration = duration;
+            if (isLocalPlayer)
             {
-                stunStartTime = Time.time;
-                stunDuration = duration;
                 this.knockbackSpeed = knockbackSpeed;
                 this.knockbackDirection = Vector2.down.normalized;
                 CmdStunEvent(duration, knockbackSpeed);
             }
         }
+    }
+    [ClientRpc]
+    public void RpcUnstun()
+    {
+        stunned = false;
+        stunStartTime = 0;
+        stunDuration = 0;
     }
 
     [Command]
@@ -141,6 +148,7 @@ public class Stunnable : NetworkBehaviour
     public void CmdUnstun()
     {
         stunned = false;
+        RpcUnstun();
         if (EventOnUnstunned != null)
         {
             EventOnUnstunned();
