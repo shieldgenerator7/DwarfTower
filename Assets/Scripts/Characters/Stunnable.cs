@@ -51,9 +51,13 @@ public class Stunnable : NetworkBehaviour
         private set { }
     }
 
+    [SyncVar]
     private float stunStartTime = 0;
+    [SyncVar]
     private float stunDuration = 0;
+    [SyncVar]
     private float knockbackSpeed = 0;
+    [SyncVar]
     private Vector2 knockbackDirection;
 
     private Rigidbody2D rb2d;
