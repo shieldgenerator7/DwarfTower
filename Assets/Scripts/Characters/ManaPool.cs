@@ -49,11 +49,12 @@ public class ManaPool : MonoBehaviour
     /// <summary>
     /// Checks to see if there's enough mana for the given wanted amount 
     /// </summary>
-    /// <param name="requestedAmount"></param>
+    /// <param name="requestedAmount">How much mana to request</param>
+    /// <param name="percentage">A number from 0 to 1, how much of the requested amount is absolutely necessary</param>
     /// <returns></returns>
-    public bool hasEnoughMana(int requestedAmount)
+    public bool hasEnoughMana(int requestedAmount, float percentage = 1)
     {
-        return !Reloading && Mana >= requestedAmount;
+        return !Reloading && Mana >= requestedAmount * percentage;
     }
 
     public int useMana(int requestedAmount)

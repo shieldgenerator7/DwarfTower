@@ -237,11 +237,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 460e25dc64fd57a4d887c6f8b7d48820, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manaCost: 10
+  manaCost: 50
   spawnBuffer: 1
   spawnObjectPrefab: {fileID: 1346666336014516, guid: a4087b6fddd3583438979850a89a70e9,
     type: 2}
-  launchRate: 6
 --- !u!114 &114994282165297500
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -3,13 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class TurretLauncher : PlayerAbility {
-
-    public float launchRate = 6;//how many turrets can be launched in a minute
-    
-    private float launchCoolDownDuration;//how long (in secs) between each shot
-    private float nextLaunchTime;//the soonest the next shot can be fired
-
+public class TurretLauncher : PlayerAbility
+{
     private Vector2 bc2dOffset;//the offset of the collider
 
     // Use this for initialization
@@ -18,8 +13,6 @@ public class TurretLauncher : PlayerAbility {
         base.Start();
         if (isLocalPlayer)
         {
-            launchCoolDownDuration = 60 / launchRate;
-            nextLaunchTime = 0;
             bc2dOffset = GetComponent<BoxCollider2D>().offset;
         }
     }
@@ -32,14 +25,16 @@ public class TurretLauncher : PlayerAbility {
             bool shouldLaunch = Input.GetMouseButtonUp(1);
             if (shouldLaunch)
             {
-                if (Time.time >= nextLaunchTime)
+                //Mana
+                if (!mana.hasEnoughMana(manaCost, 0.5f))
                 {
-                    nextLaunchTime = Time.time + launchCoolDownDuration;
-                    Vector2 direction = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - ((Vector2)transform.position + bc2dOffset);
-                    direction.Normalize();
-                    Vector2 start = (Vector2)transform.position + bc2dOffset + (direction * spawnBuffer);
-                    CmdLaunch(start);
+                    return;
                 }
+                mana.useMana(manaCost);
+                Vector2 direction = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - ((Vector2)transform.position + bc2dOffset);
+                direction.Normalize();
+                Vector2 start = (Vector2)transform.position + bc2dOffset + (direction * spawnBuffer);
+                CmdLaunch(start);
             }
         }
     }
