@@ -10,7 +10,7 @@ public class Stunnable : NetworkBehaviour
     public float stunResistancePercent = 0;
     [Range(0, 1)]
     public float knockbackResistancePercent = 0;
-    [Range(0,10)]
+    [Range(0, 10)]
     public float postStunInvulnerabeDuration = 1;//how many seconds of invulnerability you get after being stunned
 
     public float StunResistance
@@ -34,7 +34,7 @@ public class Stunnable : NetworkBehaviour
     public float stunResistanceDecayPerSecond = 0.01f;
     [Range(0, 1)]
     public float knockbackResistanceDecayPerSecond = 0.01f;
-    
+
     [SyncVar]
     public float stunResistanceBonus = 0;
     [SyncVar]
@@ -42,9 +42,17 @@ public class Stunnable : NetworkBehaviour
 
     public bool Stunned
     {
-        get { return Time.time < stunStartTime + stunDuration; }
+        get {
+            if (!isLocalPlayer)
+            {
+                return stunned;
+            }
+            return Time.time < stunStartTime + stunDuration;
+        }
         private set { }
     }
+    [SyncVar]
+    private bool stunned = false;
 
     public bool CanBeStunned
     {
@@ -75,10 +83,13 @@ public class Stunnable : NetworkBehaviour
 
     private void Update()
     {
+        BlinkEffect.blink(gameObject, Stunned);
+        //Foreign
         if (!isLocalPlayer)
         {
             return;
         }
+        //Local
         if (Stunned)
         {
             stunDuration = Mathf.MoveTowards(stunDuration, stunDuration * (1 - StunResistance), Time.deltaTime);
@@ -99,7 +110,7 @@ public class Stunnable : NetworkBehaviour
             knockbackResistanceBonus = Mathf.Clamp(knockbackResistanceBonus, 0, 1);
         }
     }
-    
+
     [ClientRpc]
     public void RpcStun(float duration, float knockbackSpeed)
     {
@@ -119,6 +130,7 @@ public class Stunnable : NetworkBehaviour
     [Command]
     public void CmdStunEvent(float duration, float knockbackSpeed)
     {
+        stunned = true;
         if (EventOnStunned != null)
         {
             EventOnStunned(duration, knockbackSpeed);
@@ -128,6 +140,7 @@ public class Stunnable : NetworkBehaviour
     [Command]
     public void CmdUnstun()
     {
+        stunned = false;
         if (EventOnUnstunned != null)
         {
             EventOnUnstunned();
@@ -149,5 +162,5 @@ public class Stunnable : NetworkBehaviour
 
     public delegate void OnUnstunned();
     [SyncEvent]
-    public  event OnUnstunned EventOnUnstunned;
+    public event OnUnstunned EventOnUnstunned;
 }
