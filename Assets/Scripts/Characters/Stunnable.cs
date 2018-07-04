@@ -42,7 +42,8 @@ public class Stunnable : NetworkBehaviour
 
     public bool Stunned
     {
-        get {
+        get
+        {
             if (!isLocalPlayer)
             {
                 return stunned;
@@ -79,11 +80,12 @@ public class Stunnable : NetworkBehaviour
             rb2d = GetComponent<Rigidbody2D>();
             EventOnUnstunned += adapt;
         }
+        EventOnStunned += beginStunEffects;
+        EventOnUnstunned += endStunEffects;
     }
 
     private void Update()
     {
-        BlinkEffect.blink(gameObject, Stunned);
         //Foreign
         if (!isLocalPlayer)
         {
@@ -154,6 +156,23 @@ public class Stunnable : NetworkBehaviour
     {
         stunResistanceBonus += stunResistanceIncrement;
         knockbackResistanceBonus += knockbackResistanceIncrement;
+    }
+
+    /// <summary>
+    /// Begins visual and audio effects of stun
+    /// </summary>
+    public void beginStunEffects(float duration, float knockbackSpeed)
+    {
+        BlinkEffect.blink(gameObject, true);
+
+    }
+
+    /// <summary>
+    /// Ends visual and audio effects of stun
+    /// </summary>
+    public void endStunEffects()
+    {
+        BlinkEffect.blink(gameObject, false);
     }
 
     public delegate void OnStunned(float duration, float knockbackSpeed);
