@@ -10,6 +10,7 @@ public class GunController : NetworkBehaviour
     public bool automatic = false;//true: auto-fires, false: fires on player input
     public float fireRate = 60;//how many bullets can be fired in a minute
     public float spawnBuffer = 1.5f;//how far from the collider's center the bullet spawns
+    public int manaCost = 10;//how much mana it costs to launch a bullet
     [SyncVar]
     public Vector2 target;//the world space coordinate of the target
 
@@ -20,6 +21,8 @@ public class GunController : NetworkBehaviour
 
     private Vector2 bc2dOffset;//the offset of the collider
 
+    private ManaPool mana;
+
     // Use this for initialization
     void Start()
     {
@@ -28,6 +31,7 @@ public class GunController : NetworkBehaviour
             fireCoolDownDuration = 60 / fireRate;
             nextFireTime = 0;
             bc2dOffset = GetComponent<BoxCollider2D>().offset;
+            mana = GetComponent<ManaPool>();
         }
         target = transform.position + Vector3.up;
     }
@@ -42,11 +46,18 @@ public class GunController : NetworkBehaviour
             {
                 if (Time.time >= nextFireTime)
                 {
-                    nextFireTime = Time.time + fireCoolDownDuration;
                     if (!automatic)
                     {
+                        //Mana
+                        int manaGiven = mana.useMana(manaCost);
+                        if (manaGiven == 0)
+                        {
+                            return;
+                        }
+                        //Target
                         target = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     }
+                    nextFireTime = Time.time + fireCoolDownDuration;
                     Vector2 direction = target - ((Vector2)transform.position + bc2dOffset);
                     direction.Normalize();
                     Vector2 start = (Vector2)transform.position + bc2dOffset + (direction * spawnBuffer);
