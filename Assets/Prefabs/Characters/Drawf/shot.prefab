@@ -119,8 +119,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 10
   travelSpeed: 7
-  stunDuration: 2
-  knockbackSpeed: 1
+  stunDuration: 1.5
+  knockbackSpeed: 3
 --- !u!114 &114396174264199000
 MonoBehaviour:
   m_ObjectHideFlags: 1
