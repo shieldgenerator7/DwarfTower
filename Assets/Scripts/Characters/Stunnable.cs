@@ -51,9 +51,6 @@ public class Stunnable : NetworkBehaviour
         }
         private set { }
     }
-    [SyncVar]
-    [SerializeField]
-    private bool stunned = false;
 
     public bool CanBeStunned
     {
@@ -83,7 +80,7 @@ public class Stunnable : NetworkBehaviour
 
     private void Update()
     {
-        BlinkEffect.blink(gameObject, Stunned);
+        BlinkEffect.blink(gameObject, !CanBeStunned);
         //Foreign
         if (!isLocalPlayer)
         {
@@ -129,7 +126,6 @@ public class Stunnable : NetworkBehaviour
     [ClientRpc]
     public void RpcUnstun()
     {
-        stunned = false;
         stunStartTime = 0;
         stunDuration = 0;
     }
@@ -137,7 +133,6 @@ public class Stunnable : NetworkBehaviour
     [Command]
     public void CmdStunEvent(float duration, float knockbackSpeed)
     {
-        stunned = true;
         if (EventOnStunned != null)
         {
             EventOnStunned(duration, knockbackSpeed);
@@ -147,7 +142,6 @@ public class Stunnable : NetworkBehaviour
     [Command]
     public void CmdUnstun()
     {
-        stunned = false;
         RpcUnstun();
         if (EventOnUnstunned != null)
         {
