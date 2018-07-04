@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 61272886480225490}
   - component: {fileID: 114482048725468156}
   - component: {fileID: 114042857512701264}
+  - component: {fileID: 114650207074243124}
   m_Layer: 0
   m_Name: tree
   m_TagString: MapObject
@@ -82,7 +83,6 @@ MonoBehaviour:
   maxHP: 50
   destroyOnDeath: 1
   fadeWithHP: 1
-  immortal: 0
 --- !u!114 &114482048725468156
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -115,6 +115,17 @@ MonoBehaviour:
     i15: 211
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114650207074243124
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1498183534639204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc88edcd31a0c8a41a81ff7897d46618, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212750486079043534
 SpriteRenderer:
   m_ObjectHideFlags: 1
