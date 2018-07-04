@@ -40,7 +40,7 @@ public class ManaPool : MonoBehaviour
             Mana = maxMana;
             reloadStartTime = 0;
         }
-        else if (Mana <= 0)
+        else if (Mana <= 0 || Input.GetButtonDown("Reload"))
         {
             reloadStartTime = Time.time;
         }
