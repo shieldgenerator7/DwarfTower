@@ -109,7 +109,7 @@ public class Stunnable : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void RpcStun(float duration, float knockbackSpeed)
+    public void RpcStun(float duration, float knockbackSpeed, Vector2 direction)
     {
         if (CanBeStunned)
         {
@@ -118,7 +118,7 @@ public class Stunnable : NetworkBehaviour
             if (isLocalPlayer)
             {
                 this.knockbackSpeed = knockbackSpeed;
-                this.knockbackDirection = Vector2.down.normalized;
+                this.knockbackDirection = direction.normalized;
                 CmdStunEvent(duration, knockbackSpeed);
             }
         }

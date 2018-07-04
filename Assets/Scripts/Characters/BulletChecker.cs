@@ -33,7 +33,8 @@ public class BulletChecker : NetworkBehaviour
             {
                 if (!TeamToken.isFriendly(gameObject, collider.gameObject))
                 {
-                    stunnable.RpcStun(stunDuration, knockbackSpeed);
+                    Vector2 direction = GetComponent<Rigidbody2D>().velocity;
+                    stunnable.RpcStun(stunDuration, knockbackSpeed, direction);
                     Destroy();
                 }
             }
