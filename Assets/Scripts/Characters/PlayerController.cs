@@ -17,6 +17,7 @@ public class PlayerController : NetworkBehaviour
         if (isLocalPlayer)
         {
             Camera.main.GetComponent<CameraController>().player = gameObject;
+            FindObjectOfType<CrosshairController>().player = gameObject;
             rb2d = GetComponent<Rigidbody2D>();
             TeamManager.assignTeam(this);
         }
