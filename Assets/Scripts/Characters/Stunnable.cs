@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+[RequireComponent(typeof(PlayerController))]
 public class Stunnable : NetworkBehaviour
 {
     [Range(0, 1)]
@@ -65,12 +66,19 @@ public class Stunnable : NetworkBehaviour
     // Use this for initialization
     void Start()
     {
-        rb2d = GetComponent<Rigidbody2D>();
-        EventOnUnstunned += adapt;
+        if (isLocalPlayer)
+        {
+            rb2d = GetComponent<Rigidbody2D>();
+            EventOnUnstunned += adapt;
+        }
     }
 
     private void Update()
     {
+        if (!isLocalPlayer)
+        {
+            return;
+        }
         if (Stunned)
         {
             stunDuration = Mathf.MoveTowards(stunDuration, stunDuration * (1 - StunResistance), Time.deltaTime);
@@ -80,6 +88,7 @@ public class Stunnable : NetworkBehaviour
         else if (Time.time - Time.deltaTime < stunStartTime + stunDuration)
         {
             CmdUnstun();
+            rb2d.velocity = Vector2.zero;
         }
         //just regular walking around, not stunned
         else
@@ -90,20 +99,29 @@ public class Stunnable : NetworkBehaviour
             knockbackResistanceBonus = Mathf.Clamp(knockbackResistanceBonus, 0, 1);
         }
     }
+    
+    [ClientRpc]
+    public void RpcStun(float duration, float knockbackSpeed)
+    {
+        if (isLocalPlayer)
+        {
+            if (CanBeStunned)
+            {
+                stunStartTime = Time.time;
+                stunDuration = duration;
+                this.knockbackSpeed = knockbackSpeed;
+                this.knockbackDirection = Vector2.down.normalized;
+                CmdStunEvent(duration, knockbackSpeed);
+            }
+        }
+    }
 
     [Command]
-    public void CmdStun(float duration, float knockbackSpeed)
+    public void CmdStunEvent(float duration, float knockbackSpeed)
     {
-        if (CanBeStunned)
+        if (EventOnStunned != null)
         {
-            stunStartTime = Time.time;
-            stunDuration = duration;
-            this.knockbackSpeed = knockbackSpeed;
-            this.knockbackDirection = Vector2.down.normalized;
-            if (EventOnStunned != null)
-            {
-                EventOnStunned(duration, knockbackSpeed);
-            }
+            EventOnStunned(duration, knockbackSpeed);
         }
     }
 

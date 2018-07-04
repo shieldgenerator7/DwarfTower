@@ -33,7 +33,7 @@ public class BulletChecker : NetworkBehaviour
             {
                 if (!TeamToken.isFriendly(gameObject, collider.gameObject))
                 {
-                    stunnable.CmdStun(stunDuration, knockbackSpeed);
+                    stunnable.RpcStun(stunDuration, knockbackSpeed);
                     Destroy();
                 }
             }
