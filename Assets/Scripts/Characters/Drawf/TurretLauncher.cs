@@ -3,21 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class TurretLauncher : NetworkBehaviour {
+public class TurretLauncher : PlayerAbility {
 
     public float launchRate = 6;//how many turrets can be launched in a minute
-    public float spawnBuffer = 1f;//how far from the collider's center the bullet spawns
-
-    public GameObject turretPrefab;
-
+    
     private float launchCoolDownDuration;//how long (in secs) between each shot
     private float nextLaunchTime;//the soonest the next shot can be fired
 
     private Vector2 bc2dOffset;//the offset of the collider
 
     // Use this for initialization
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         if (isLocalPlayer)
         {
             launchCoolDownDuration = 60 / launchRate;
@@ -50,7 +48,7 @@ public class TurretLauncher : NetworkBehaviour {
     void CmdLaunch(Vector2 start)
     {
         //spawn bullet
-        GameObject turret = GameObject.Instantiate(turretPrefab);
+        GameObject turret = GameObject.Instantiate(spawnObjectPrefab);
         turret.transform.position = start;
         turret.GetComponent<TurretController>().owner = gameObject;
         TeamToken.assignTeam(turret, gameObject);

@@ -30,6 +30,7 @@ GameObject:
   - component: {fileID: 114994282165297500}
   - component: {fileID: 114062994484349804}
   - component: {fileID: 114542058478749636}
+  - component: {fileID: 114242832380573554}
   m_Layer: 0
   m_Name: drawf
   m_TagString: Player
@@ -108,6 +109,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stunResistancePercent: 0
   knockbackResistancePercent: 0
+  postStunInvulnerabeDuration: 1
+  stunResistanceIncrement: 0.1
+  knockbackResistanceIncrement: 0.1
+  stunResistanceDecayPerSecond: 0.01
+  knockbackResistanceDecayPerSecond: 0.01
+  stunResistanceBonus: 0
+  knockbackResistanceBonus: 0
 --- !u!114 &114137815361313034
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -141,6 +149,20 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
+--- !u!114 &114242832380573554
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1952661027217810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0368d64abeb0d60468d54dc511981324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxMana: 100
+  reloadDuration: 3
+  mana: 0
 --- !u!114 &114500131484697906
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -152,12 +174,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac6d056297effee429b65d1e1d9fb8ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  manaCost: 10
+  spawnBuffer: 1.5
+  spawnObjectPrefab: {fileID: 1312562852849484, guid: caffe40ff38df924ea83379aa74cf82a,
+    type: 2}
   automatic: 0
   fireRate: 240
-  spawnBuffer: 1.5
   target: {x: 0, y: 0}
-  bulletPrefab: {fileID: 1312562852849484, guid: caffe40ff38df924ea83379aa74cf82a,
-    type: 2}
 --- !u!114 &114501868631826616
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -214,10 +237,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 460e25dc64fd57a4d887c6f8b7d48820, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchRate: 6
+  manaCost: 10
   spawnBuffer: 1
-  turretPrefab: {fileID: 1346666336014516, guid: a4087b6fddd3583438979850a89a70e9,
+  spawnObjectPrefab: {fileID: 1346666336014516, guid: a4087b6fddd3583438979850a89a70e9,
     type: 2}
+  launchRate: 6
 --- !u!114 &114994282165297500
 MonoBehaviour:
   m_ObjectHideFlags: 1
