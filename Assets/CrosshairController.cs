@@ -39,7 +39,6 @@ public class CrosshairController : MonoBehaviour
             float fillAmount = (float)mana.Mana / (float)mana.maxMana;
             image.fillAmount = fillAmount;
             Color c = image.color;
-            c.r = c.g = c.b = fillAmount;
             if (mana.Reloading)
             {
                 c.a = 0.5f;
