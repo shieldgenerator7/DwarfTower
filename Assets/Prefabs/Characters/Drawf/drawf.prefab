@@ -174,7 +174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac6d056297effee429b65d1e1d9fb8ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manaCost: 10
+  manaCost: 3
   spawnBuffer: 1.5
   spawnObjectPrefab: {fileID: 1312562852849484, guid: caffe40ff38df924ea83379aa74cf82a,
     type: 2}
