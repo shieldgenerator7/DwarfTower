@@ -84,6 +84,16 @@ public class TeamToken : NetworkBehaviour {
             sr = GetComponent<SpriteRenderer>();
         }
         sr.color = teamColor;
+        if (isLocalPlayer)
+        {
+            foreach (TeamToken tt in FindObjectsOfType<TeamToken>())
+            {
+                if (!tt.isLocalPlayer)
+                {
+                    tt.assignTeamColor();
+                }
+            }
+        }
     }
 
     private static void findLocalPlayer()
