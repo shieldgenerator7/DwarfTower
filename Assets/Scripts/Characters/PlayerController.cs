@@ -10,17 +10,19 @@ public class PlayerController : NetworkBehaviour
 
     private Rigidbody2D rb2d;
     private Stunnable stunnable;
-
+    
     // Use this for initialization
     void Start()
     {
+        if (isServer)
+        {
+            FindObjectOfType<TeamManager>().assignTeam(gameObject);
+        }
         if (isLocalPlayer)
         {
             Camera.main.GetComponent<CameraController>().player = gameObject;
             FindObjectOfType<CrosshairController>().init(gameObject);
             rb2d = GetComponent<Rigidbody2D>();
-            TeamManager.assignTeam(this);
-        }
         foreach (PlayerController pc in FindObjectsOfType<PlayerController>())
         {
             setupForNewPlayer(pc);
@@ -63,5 +65,11 @@ public class PlayerController : NetworkBehaviour
                 }
             }
         }
+    }
+
+    [ClientRpc]
+    public void RpcRenamePlayer(string name)
+    {
+        gameObject.name = name; 
     }
 }
