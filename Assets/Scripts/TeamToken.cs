@@ -11,7 +11,9 @@ public class TeamToken : NetworkBehaviour {
     [SyncVar]
     public GameObject teamCaptain;
     public Color teamColor = Color.red;//by default, all team colors will be red, except for your own color
-    
+
+    private static TeamToken instanceLocalPlayer;
+
     /// <summary>
     /// Returns whether or not the given GameObjects are on the same team
     /// </summary>
@@ -22,7 +24,9 @@ public class TeamToken : NetworkBehaviour {
     {
         TeamToken tta = obja.GetComponent<TeamToken>();
         TeamToken ttb = objb.GetComponent<TeamToken>();
-        if (tta == null || ttb == null)
+        if (tta == null || ttb == null
+            || tta.teamCaptain == null
+            || ttb.teamCaptain == null)
         {
             //If there's no explicit team defined,
             //assume it's not friendly
@@ -38,32 +42,59 @@ public class TeamToken : NetworkBehaviour {
     /// <param name="member"></param>
     public static void assignTeam(GameObject recruit, GameObject member)
     {
-        member.GetComponent<TeamToken>().CmdAssignTeams(recruit);
-        //TeamToken ttr = recruit.GetComponent<TeamToken>();
-        //TeamToken ttm = member.GetComponent<TeamToken>();
-        //ttr.teamColor = ttm.teamColor;
-    }
-
-    [Command]
-    void CmdAssignTeams(GameObject recruit)
-    {
+        TeamToken ttm = member.GetComponent<TeamToken>();
         TeamToken ttr = recruit.GetComponent<TeamToken>();
         if (ttr == null)
         {
             throw new UnityException("TeamToken.CmdAssignTeams(): Recruit doesn't have a TeamToken! recruit: " + recruit.name);
         }
-        ttr.teamCaptain = teamCaptain;
+        ttr.teamCaptain = ttm.teamCaptain;
+        ttr.RpcAssignTeams();
+    }
+
+    [ClientRpc]
+    void RpcAssignTeams()
+    {
+        assignTeamColor();
     }
 
     private SpriteRenderer sr;
 
     private void Start()
     {
-        sr = GetComponent<SpriteRenderer>();
-        if (teamCaptain.GetComponent<PlayerController>().isLocalPlayer)
+        assignTeamColor();
+    }
+
+    public void assignTeamColor()
+    {
+        if (instanceLocalPlayer == null)
+        {
+            findLocalPlayer();
+        }
+        if (isLocalPlayer || TeamToken.isFriendly(instanceLocalPlayer.gameObject, gameObject))
         {
             teamColor = Color.white;
         }
+        else
+        {
+            teamColor = Color.red;
+        }
+        if (sr == null)
+        {
+            sr = GetComponent<SpriteRenderer>();
+        }
         sr.color = teamColor;
+    }
+
+    private static void findLocalPlayer()
+    {
+        foreach (TeamToken tt in FindObjectsOfType<TeamToken>())
+        {
+            if (tt.isLocalPlayer)
+            {
+                instanceLocalPlayer = tt;
+                return;
+            }
+        }
     }
 }

@@ -14,7 +14,7 @@ public class TeamManager : NetworkBehaviour
     [SyncVar]
     public int playerCount = 0;
 
-    private TeamToken[] teamCaptains = new TeamToken[3];
+    private GameObject[] teamCaptains = new GameObject[3];
     
     // Use this for initialization
     void Start()
@@ -55,8 +55,8 @@ public class TeamManager : NetworkBehaviour
         {
             TeamToken tt = pc.GetComponent<TeamToken>();
             tt.teamCaptain = pc.gameObject;
-            teamCaptains[teamNumber] = tt;
+            teamCaptains[teamNumber] = pc.gameObject;
         }
-        TeamToken.assignTeam(pc.gameObject, teamCaptains[teamNumber].gameObject);
+        TeamToken.assignTeam(pc.gameObject, teamCaptains[teamNumber]);
     }
 }

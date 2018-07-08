@@ -23,26 +23,11 @@ public class PlayerController : NetworkBehaviour
             Camera.main.GetComponent<CameraController>().player = gameObject;
             FindObjectOfType<CrosshairController>().init(gameObject);
             rb2d = GetComponent<Rigidbody2D>();
-        foreach (PlayerController pc in FindObjectsOfType<PlayerController>())
-        {
-            setupForNewPlayer(pc);
         }
         stunnable = GetComponent<Stunnable>();
     }
 
-    void setupForNewPlayer(PlayerController pc)
-    {
-        TeamToken tt = pc.gameObject.GetComponent<TeamToken>();
-        if (pc.isLocalPlayer)
-        {
-            tt.teamColor = Color.white;
-        }
-        if (tt.teamCaptain == null)
-        {
-            tt.teamCaptain = pc.gameObject;
-        }
-        pc.gameObject.GetComponent<SpriteRenderer>().color = tt.teamColor;
-    }
+    
 
     // Update is called once per frame
     void Update()
