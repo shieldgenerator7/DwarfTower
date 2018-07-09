@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4963646313847812}
   - component: {fileID: 212850000201900124}
   - component: {fileID: 114943513558477956}
+  - component: {fileID: 114879584186314536}
   m_Layer: 0
   m_Name: flag
   m_TagString: Untagged
@@ -41,6 +42,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114879584186314536
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1075421411667312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71a1ed3379fe0534f845ede1e24c9d7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teamCaptain: {fileID: 0}
+  teamColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &114943513558477956
 MonoBehaviour:
   m_ObjectHideFlags: 1
