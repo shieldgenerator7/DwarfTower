@@ -7,6 +7,8 @@ public class CaravanController : NetworkBehaviour
 {
 
     public float maxPushRange = 10;//the maximum distance a player can be from this caravan and still push it
+    public float maxPushSpeedPerPlayer = 1.5f;
+    public float maxSpeed = 4;//the maximum speed the payload can move
 
     private Rigidbody2D rb2d;
 
@@ -41,12 +43,14 @@ public class CaravanController : NetworkBehaviour
             float dirForce = 0;
             foreach (PlayerController pc in FindObjectsOfType<PlayerController>())
             {
-                dirForce += (float)TeamManager.getForceDirection(pc)
-                    * Mathf.Max(
-                        0,
-                        (maxPushRange - Vector2.Distance(pc.transform.position, transform.position))
-                      );
+                float playerPushForce =
+                    maxPushSpeedPerPlayer
+                    * Mathf.Max(0, maxPushRange - Vector2.Distance(pc.transform.position, transform.position))
+                    / maxPushRange;
+                dirForce += (float)TeamManager.getForceDirection(pc) * playerPushForce;
+
             }
+            dirForce = Mathf.Sign(dirForce) * Mathf.Clamp(Mathf.Abs(dirForce), 0, maxSpeed);
             rb2d.velocity = Vector2.up * dirForce;
         }
     }
