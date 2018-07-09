@@ -61,7 +61,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -150,6 +150,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxPushRange: 10
+  maxPushSpeedPerPlayer: 1.5
+  maxSpeed: 4
 --- !u!114 &114674411153182248
 MonoBehaviour:
   m_ObjectHideFlags: 1
