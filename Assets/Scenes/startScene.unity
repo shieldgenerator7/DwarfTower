@@ -414,6 +414,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f54d22f34f8a654886e0980c8875ea7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tileHeight: 100
+  tileWidth: 100
+  caravanPrefab: {fileID: 1095182588992328, guid: 52c512e81a938c443906b8dc14bed353,
+    type: 2}
+  flagPrefab: {fileID: 1075421411667312, guid: 32ffff470f1d3a24e8985e25870cf2dc, type: 2}
   grassPrefab: {fileID: 1343941217465936, guid: 60cd115161d384342a4fab4080153331,
     type: 2}
   waterPrefab: {fileID: 1415755100382890, guid: e6730e08b2c1ccc46b09b068901e8003,
@@ -424,10 +429,6 @@ MonoBehaviour:
   treePrefab: {fileID: 1498183534639204, guid: 1a6704bef9aa3ae4595ec8f7d72752d3, type: 2}
   borderPrefab: {fileID: 1343941217465936, guid: a66b0ab86c856fc488805d216bbba3fe,
     type: 2}
-  caravanPrefab: {fileID: 1095182588992328, guid: 52c512e81a938c443906b8dc14bed353,
-    type: 2}
-  tileHeight: 100
-  tileWidth: 100
 --- !u!4 &591631470
 Transform:
   m_ObjectHideFlags: 0

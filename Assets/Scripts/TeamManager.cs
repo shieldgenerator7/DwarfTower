@@ -26,6 +26,17 @@ public class TeamManager : NetworkBehaviour
             instance = this;
         }
     }
+
+    public static void registerFlag(GameObject flag, int teamNumber)
+    {
+        if (instance.teamCaptains[teamNumber] == null)
+        {
+            TeamToken tt = flag.GetComponent<TeamToken>();
+            tt.teamCaptain = flag;
+            instance.teamCaptains[teamNumber] = flag;
+        }
+        TeamToken.assignTeam(flag, instance.teamCaptains[teamNumber]);
+    }
     
     public void assignTeam(GameObject go)
     {

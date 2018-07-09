@@ -5,17 +5,21 @@ using UnityEngine.Networking;
 
 public class LevelManager : NetworkBehaviour
 {
+    [Header("Settings")]
+    [SyncVar]
+    public int tileHeight = 100;//how many tiles across
+    [SyncVar]
+    public int tileWidth = 100;//how many tiles from top to bottom
+    [Header("Objective Prefabs")]
+    public GameObject caravanPrefab;
+    public GameObject flagPrefab;
+    [Header("Tile Prefabs")]
     public GameObject grassPrefab;
     public GameObject waterPrefab;
     public GameObject roadPrefab;
     public GameObject bridgePrefab;
     public GameObject treePrefab;
     public GameObject borderPrefab;
-    public GameObject caravanPrefab;
-    [SyncVar]
-    public int tileHeight = 100;//how many tiles across
-    [SyncVar]
-    public int tileWidth = 100;//how many tiles from top to bottom
     //SyncListStruct<NetworkTileMap> networkTileMap = new SyncListStruct<NetworkTileMap>();
     public GameObject[,] tileMap;//the map of tiles
 
@@ -112,9 +116,24 @@ public class LevelManager : NetworkBehaviour
         generateBorder(borderPrefab, width, height);
 
         //place caravan
-        GameObject caravan = Instantiate(caravanPrefab);
-        caravan.transform.position = Vector2.zero;
-        NetworkServer.Spawn(caravan);
+        {
+            GameObject caravan = Instantiate(caravanPrefab);
+            caravan.transform.position = Vector2.zero;
+            NetworkServer.Spawn(caravan);
+        }
+        //place team flags
+        {//Team 1 (defenders)
+            GameObject flag1 = Instantiate(flagPrefab);
+            flag1.transform.position = new Vector2(0, tileHeight / 2 - 5);
+            NetworkServer.Spawn(flag1);
+            TeamManager.registerFlag(flag1, 1);
+        }
+        {//Team 2 (attackers)
+            GameObject flag2 = Instantiate(flagPrefab);
+            flag2.transform.position = new Vector2(0, -tileHeight / 2 + 5);
+            NetworkServer.Spawn(flag2);
+            TeamManager.registerFlag(flag2, 2);
+        }
     }
 
     private void generateFill(GameObject prefab, GameObject[,] prefabMap, int width, int height)

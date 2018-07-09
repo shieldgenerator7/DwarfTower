@@ -69,7 +69,14 @@ public class TeamToken : NetworkBehaviour {
     {
         if (instanceLocalPlayer == null)
         {
-            findLocalPlayer();
+            if (isLocalPlayer)
+            {
+                instanceLocalPlayer = this;
+            }
+            else
+            {
+                return;
+            }
         }
         if (isLocalPlayer || TeamToken.isFriendly(instanceLocalPlayer.gameObject, gameObject))
         {
