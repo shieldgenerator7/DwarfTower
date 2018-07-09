@@ -33,7 +33,7 @@ public class BulletChecker : NetworkBehaviour
             {
                 if (!TeamToken.isFriendly(gameObject, collider.gameObject))
                 {
-                    Vector2 direction = GetComponent<Rigidbody2D>().velocity;
+                    Vector2 direction = CaravanController.getStunDirection(collider.gameObject.transform.position);
                     stunnable.RpcStun(stunDuration, knockbackSpeed, direction);
                     Destroy();
                 }

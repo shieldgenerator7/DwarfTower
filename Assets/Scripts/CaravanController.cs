@@ -10,6 +10,8 @@ public class CaravanController : NetworkBehaviour
     public float maxPushSpeedPerPlayer = 1.5f;
     public float maxSpeed = 4;//the maximum speed the payload can move
 
+    private static CaravanController instance;
+
     private Rigidbody2D rb2d;
 
     // Use this for initialization
@@ -18,6 +20,8 @@ public class CaravanController : NetworkBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         if (isServer)
         {
+            //Initialize instance
+            instance = this;
             //Destroy all trees that happen to overlap the payload
             RaycastHit2D[] rch2ds = new RaycastHit2D[100];
             foreach (Collider2D coll in GetComponents<Collider2D>())
@@ -55,5 +59,10 @@ public class CaravanController : NetworkBehaviour
             dirForce = Mathf.Sign(dirForce) * Mathf.Clamp(Mathf.Abs(dirForce), 0, maxSpeed);
             rb2d.velocity = Vector2.up * dirForce;
         }
+    }
+
+    public static Vector2 getStunDirection(Vector2 otherPos)
+    {
+        return otherPos - (Vector2)instance.transform.position;
     }
 }
