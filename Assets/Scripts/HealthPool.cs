@@ -8,8 +8,7 @@ public class HealthPool : NetworkBehaviour {
     public int maxHP = 100;//the max HP this entity has
     public bool destroyOnDeath = true;//destroys this game object when HP reaches 0
     public bool fadeWithHP = true;//make the object fade out as it takes damage
-    public bool immortal = false;//if true, respawn elsewhere on screen instead of killing them
-
+    
     private int healthPoints;//how much HP this entity currently has
     public int HP
     {
@@ -92,16 +91,6 @@ public class HealthPool : NetworkBehaviour {
     [Command]
     void CmdKill()
     {
-        if (immortal)
-        {
-            HP = maxHP;
-            float range = 20;
-            float randomX = Random.Range(-range, range);
-            float randomY = Random.Range(-range, range);
-            Vector2 randomPos = new Vector2(randomX, randomY);
-            transform.position += (Vector3)randomPos;
-            return;
-        }
         Destroy(gameObject);
         NetworkServer.Destroy(gameObject);
     }
