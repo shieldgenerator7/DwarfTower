@@ -15,10 +15,16 @@ public class TeamManager : NetworkBehaviour
     public int playerCount = 0;
 
     private GameObject[] teamCaptains = new GameObject[3];
-    
+
+    private static TeamManager instance;
+
     // Use this for initialization
     void Start()
     {
+        if (isServer)
+        {
+            instance = this;
+        }
     }
     
     public void assignTeam(GameObject go)
@@ -58,5 +64,18 @@ public class TeamManager : NetworkBehaviour
             teamCaptains[teamNumber] = pc.gameObject;
         }
         TeamToken.assignTeam(pc.gameObject, teamCaptains[teamNumber]);
+    }
+
+    public static int getForceDirection(PlayerController pc)
+    {
+        if (TeamToken.isFriendly(pc.gameObject, instance.teamCaptains[1]))
+        {
+            return -1;
+        }
+        if (TeamToken.isFriendly(pc.gameObject, instance.teamCaptains[2]))
+        {
+            return 1;
+        }
+        throw new UnityException("Player " + pc.name + " is not on either team!");
     }
 }
