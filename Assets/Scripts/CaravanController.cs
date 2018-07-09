@@ -60,8 +60,8 @@ public class CaravanController : NetworkBehaviour
                     }
                 }
             }
-            rb2d.velocity = Vector2.up * dirForce;
             dirForce = Mathf.Clamp(dirForce, -maxSpeed, maxSpeed);
+            rb2d.velocity = new Vector2(rb2d.velocity.x, dirForce);
         }
     }
 
