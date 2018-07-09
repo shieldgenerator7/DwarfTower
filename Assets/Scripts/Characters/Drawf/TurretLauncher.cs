@@ -34,18 +34,19 @@ public class TurretLauncher : PlayerAbility
                 Vector2 direction = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - ((Vector2)transform.position + bc2dOffset);
                 direction.Normalize();
                 Vector2 start = (Vector2)transform.position + bc2dOffset + (direction * spawnBuffer);
-                CmdLaunch(start);
+                CmdLaunch(start, direction);
             }
         }
     }
 
     [Command]
-    void CmdLaunch(Vector2 start)
+    void CmdLaunch(Vector2 start, Vector2 direction)
     {
         //spawn bullet
         GameObject turret = GameObject.Instantiate(spawnObjectPrefab);
         turret.transform.position = start;
         turret.GetComponent<TurretController>().owner = gameObject;
+        turret.GetComponent<GunController>().target = start + direction;
         TeamToken.assignTeam(turret, gameObject);
         NetworkServer.Spawn(turret);
     }

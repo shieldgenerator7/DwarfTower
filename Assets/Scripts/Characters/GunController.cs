@@ -10,7 +10,7 @@ public class GunController : PlayerAbility
     public bool automatic = false;//true: auto-fires, false: fires on player input
     public float fireRate = 60;//how many bullets can be fired in a minute
     [SyncVar]
-    public Vector2 target;//the world space coordinate of the target
+    public Vector2 target = Vector2.zero;//the world space coordinate of the target
     
     private float fireCoolDownDuration;//how long (in secs) between each shot
     private float nextFireTime;//the soonest the next shot can be fired
@@ -27,7 +27,6 @@ public class GunController : PlayerAbility
             nextFireTime = 0;
             bc2dOffset = GetComponent<BoxCollider2D>().offset;
         }
-        target = transform.position + Vector3.up;
     }
 
     // Update is called once per frame
