@@ -12,12 +12,23 @@ public class CustomMenu
     {
         build(BuildTarget.StandaloneWindows, "exe");
     }
-    [MenuItem("SG7/Build/Build Linux %l")]
+    [MenuItem("SG7/Build/Play Windows %#w")]
+    public static void playWindows()
+    {
+        //2018-07-01: copied from build(..)
+        // Run the game (Process class from System.Diagnostics).
+        Process proc = new Process();
+        proc.StartInfo.FileName = "C:/Users/steph/Documents/Unity/DwarfTower/Builds/"
+            + PlayerSettings.productName + "/"
+            + PlayerSettings.productName + ".exe";
+        proc.Start();
+    }
+    [MenuItem("SG7/Build/Build Linux")]
     public static void buildLinux()
     {
         build(BuildTarget.StandaloneLinux, "x86");
     }
-    [MenuItem("SG7/Build/Build Mac OS X %#l")]
+    [MenuItem("SG7/Build/Build Mac OS X")]
     public static void buildMacOSX()
     {
         build(BuildTarget.StandaloneOSX, "");

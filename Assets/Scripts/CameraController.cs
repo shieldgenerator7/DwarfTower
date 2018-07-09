@@ -26,6 +26,10 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
+        if (player == null)
+        {
+            return;
+        }
         //Move to Player (or target position)
         Vector3 target = player.transform.position;
         Vector3 pointer = cam.ScreenToWorldPoint(Input.mousePosition);
