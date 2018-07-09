@@ -43,12 +43,14 @@ public class CaravanController : NetworkBehaviour
             float dirForce = 0;
             foreach (PlayerController pc in FindObjectsOfType<PlayerController>())
             {
-                float playerPushForce =
-                    maxPushSpeedPerPlayer
-                    * Mathf.Max(0, maxPushRange - Vector2.Distance(pc.transform.position, transform.position))
-                    / maxPushRange;
-                dirForce += TeamManager.getForceDirection(pc) * playerPushForce;
-
+                if (!pc.GetComponent<Stunnable>().Stunned)
+                {
+                    float playerPushForce =
+                        maxPushSpeedPerPlayer
+                        * Mathf.Max(0, maxPushRange - Vector2.Distance(pc.transform.position, transform.position))
+                        / maxPushRange;
+                    dirForce += TeamManager.getForceDirection(pc) * playerPushForce;
+                }
             }
             dirForce = Mathf.Sign(dirForce) * Mathf.Clamp(Mathf.Abs(dirForce), 0, maxSpeed);
             rb2d.velocity = Vector2.up * dirForce;
