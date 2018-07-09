@@ -57,4 +57,12 @@ public class PlayerController : NetworkBehaviour
     {
         gameObject.name = name; 
     }
+    [ClientRpc]
+    public void RpcRepositionPlayer(Vector2 position)
+    {
+        if (isLocalPlayer)
+        {
+            transform.position = position;
+        }
+    }
 }

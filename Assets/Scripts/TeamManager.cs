@@ -74,6 +74,7 @@ public class TeamManager : NetworkBehaviour
             tt.teamCaptain = pc.gameObject;
             teamCaptains[teamNumber] = pc.gameObject;
         }
+        pc.RpcRepositionPlayer(teamCaptains[teamNumber].transform.position);
         TeamToken.assignTeam(pc.gameObject, teamCaptains[teamNumber]);
     }
 
