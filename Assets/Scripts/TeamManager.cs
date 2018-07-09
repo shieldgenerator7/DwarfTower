@@ -78,7 +78,7 @@ public class TeamManager : NetworkBehaviour
         TeamToken.assignTeam(pc.gameObject, teamCaptains[teamNumber]);
     }
 
-    public static int getForceDirection(PlayerController pc)
+    public static float getForceDirection(PlayerController pc)
     {
         if (TeamToken.isFriendly(pc.gameObject, instance.teamCaptains[1]))
         {

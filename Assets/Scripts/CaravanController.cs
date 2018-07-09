@@ -47,7 +47,7 @@ public class CaravanController : NetworkBehaviour
                     maxPushSpeedPerPlayer
                     * Mathf.Max(0, maxPushRange - Vector2.Distance(pc.transform.position, transform.position))
                     / maxPushRange;
-                dirForce += (float)TeamManager.getForceDirection(pc) * playerPushForce;
+                dirForce += TeamManager.getForceDirection(pc) * playerPushForce;
 
             }
             dirForce = Mathf.Sign(dirForce) * Mathf.Clamp(Mathf.Abs(dirForce), 0, maxSpeed);
