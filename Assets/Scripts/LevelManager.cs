@@ -11,6 +11,7 @@ public class LevelManager : NetworkBehaviour
     public GameObject bridgePrefab;
     public GameObject treePrefab;
     public GameObject borderPrefab;
+    public GameObject caravanPrefab;
     [SyncVar]
     public int tileHeight = 100;//how many tiles across
     [SyncVar]
@@ -109,6 +110,11 @@ public class LevelManager : NetworkBehaviour
         }
         generateForest(treePrefab, new Vector2(90, 90), new Vector2(0, 0));
         generateBorder(borderPrefab, width, height);
+
+        //place caravan
+        GameObject caravan = Instantiate(caravanPrefab);
+        caravan.transform.position = Vector2.zero;
+        NetworkServer.Spawn(caravan);
     }
 
     private void generateFill(GameObject prefab, GameObject[,] prefabMap, int width, int height)
